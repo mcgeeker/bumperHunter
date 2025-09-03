@@ -15,16 +15,17 @@ struct TripDetailView: View {
     }
 
     var body: some View {
-        VStack {
+        let data = Array(cumulativeData.enumerated())
+        return VStack {
             Chart {
-                ForEach(Array(cumulativeData.enumerated()), id: \.offset) { _, item in
+                ForEach(data, id: \.offset) { _, item in
                     LineMark(
                         x: .value("Time", item.0),
                         y: .value("Count", item.1)
                     )
                 }
                 if showPercentage {
-                    ForEach(Array(cumulativeData.enumerated()), id: \.offset) { _, item in
+                    ForEach(data, id: \.offset) { _, item in
                         LineMark(
                             x: .value("Time", item.0),
                             y: .value("Percent", Double(item.1) / Double(trip.totalCount))
