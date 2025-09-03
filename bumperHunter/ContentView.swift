@@ -1,21 +1,32 @@
-//
-//  ContentView.swift
-//  bumperHunter
-//
-//  Created by Admin on 2025-09-03.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var store = TripStore()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            Group {
+                if store.activeTrip != nil {
+                    ActiveTripView()
+                } else {
+                    startScreen
+                }
+            }
         }
-        .padding()
+        .environmentObject(store)
+    }
+
+    var startScreen: some View {
+        VStack {
+            NavigationLink("New Trip") {
+                NewTripView()
+            }
+            NavigationLink("History") {
+                HistoryView()
+            }
+            // Settings could go here
+        }
+        .navigationTitle("Bumper Hunter")
     }
 }
 
