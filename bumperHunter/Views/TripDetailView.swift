@@ -17,16 +17,14 @@ struct TripDetailView: View {
     var body: some View {
         VStack {
             Chart {
-                ForEach(cumulativeData.indices, id: \.self) { index in
-                    let item = cumulativeData[index]
+                ForEach(Array(cumulativeData.enumerated()), id: \.offset) { _, item in
                     LineMark(
                         x: .value("Time", item.0),
                         y: .value("Count", item.1)
                     )
                 }
                 if showPercentage {
-                    ForEach(cumulativeData.indices, id: \.self) { index in
-                        let item = cumulativeData[index]
+                    ForEach(Array(cumulativeData.enumerated()), id: \.offset) { _, item in
                         LineMark(
                             x: .value("Time", item.0),
                             y: .value("Percent", Double(item.1) / Double(trip.totalCount))
@@ -36,7 +34,6 @@ struct TripDetailView: View {
                     }
                 }
             }
-            .chartYAxisSecondary(showPercentage ? AxisMarks(position: .leading) : AxisMarks())
             .padding()
             Toggle("Show %", isOn: $showPercentage)
                 .padding()
